@@ -8,6 +8,8 @@ import org.springframework.context.ApplicationContext;
 import org.springframework.context.support.ClassPathXmlApplicationContext;
 
 public class App {
+    private ICarService carService;
+
     public static void main(String[] args) {
         ApplicationContext ctx = new ClassPathXmlApplicationContext("beans.xml");
 
@@ -15,19 +17,25 @@ public class App {
 //                - For each ride a driver can select a car. But the car should have a full tank only.
 //                - When a car returns a car, he needs to fill the tank to the full.
 
-        ICarOwnerService carOwnerService = ctx.getBean(CarOwnerService.class);
-        ICarService carService = ctx.getBean(CarService.class);
-        IRideService rideService = ctx.getBean(RideService.class);
+        ICarOwnerService carOwnerService = ctx.getBean(ICarOwnerService.class);
+        ICarService carService = ctx.getBean(ICarService.class);
+        IRideService rideService = ctx.getBean(IRideService.class);
 
-        carService.save(new Car("Honda Accord", new CarOwner("Alex"), true));
-        carService.save(new Car("Toyota Corolla",
-                carOwnerService.findById(1).orElseThrow(RuntimeException::new),
-                true));
-        carService.save(new Car("Aston Martin",
-                carOwnerService.findById(1).orElseThrow(RuntimeException::new),
-                true));
+        carOwnerService.save(new CarOwner("Alex"));
+        System.out.println(carOwnerService.findById(1).get());
 
-        rideService.save(new Ride(carOwnerService.findById(1).orElseThrow(RuntimeException::new),
-                carService.findById(1).orElseThrow(RuntimeException::new)));
+        carService.save(new Car("Honda", carOwnerService.findById(1).get(), true));
+        carService.save(new Car("Toyota", carOwnerService.findById(1).get(), true));
+        carService.save(new Car("Nissan", carOwnerService.findById(1).get(), true));
+
+        rideService.save(new Ride(carOwnerService.findById(1).get(),
+                carService.findById(2).get()));
+        System.out.println(rideService.findById(1));
+
+//        @Transactional
+//        public BankAccount newForUser(Long userId) {
+//            BankAccount account = new BankAccount();
+//            userRepository.findById(userId).ifPresent(account::setUser); //<----
+//            return accountRepository.save(account);
     }
 }

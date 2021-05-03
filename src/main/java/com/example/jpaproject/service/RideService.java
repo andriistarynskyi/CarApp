@@ -13,11 +13,12 @@ import java.util.Optional;
 public class RideService implements IRideService {
 
     private IRideRepository rideRepository;
+    private ICarService carService;
 
     @Autowired
-
-    public RideService(IRideRepository rideRepository) {
+    public RideService(IRideRepository rideRepository, ICarService carService) {
         this.rideRepository = rideRepository;
+        this.carService = carService;
     }
 
     @Override
@@ -25,6 +26,7 @@ public class RideService implements IRideService {
     public void save(Ride ride) {
         Car car = ride.getCar();
         car.setTankFull(false);
+        carService.save(car);
         rideRepository.save(ride);
     }
 
