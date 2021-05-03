@@ -34,4 +34,11 @@ public class RideService implements IRideService {
     public Optional<Ride> findById(int id) {
         return rideRepository.findById(id);
     }
+
+    @Override
+    public void completeRide(Ride ride) {
+        Car car = ride.getCar();
+        car.setTankFull(true);
+        carService.save(car);
+    }
 }

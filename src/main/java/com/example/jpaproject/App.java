@@ -29,13 +29,12 @@ public class App {
         carService.save(new Car("Nissan", carOwnerService.findById(1).get(), true));
 
         rideService.save(new Ride(carOwnerService.findById(1).get(),
-                carService.findById(2).get()));
+                carService.findById(1).get()));
         System.out.println(rideService.findById(1));
 
-//        @Transactional
-//        public BankAccount newForUser(Long userId) {
-//            BankAccount account = new BankAccount();
-//            userRepository.findById(userId).ifPresent(account::setUser); //<----
-//            return accountRepository.save(account);
+        Ride ride = rideService.findById(1).get();
+        rideService.completeRide(ride);
+
+
     }
 }

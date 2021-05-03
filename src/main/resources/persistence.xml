@@ -7,7 +7,7 @@
         <property name="driverClassName" value="com.mysql.cj.jdbc.Driver"/>
         <property name="url" value="jdbc:mysql://localhost:3306/jpaproject?useSSL=false"/>
         <property name="username" value="root"/>
-        <property name="password" value="67yhn)*u7hoasdhj"/>
+        <property name="password" value="password"/>
     </bean>
 
     <bean id="entityManagerFactory" class="org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean">

@@ -9,4 +9,5 @@ public interface IRideService {
 
     Optional<Ride> findById(int id);
 
+    void completeRide(Ride ride);
 }
